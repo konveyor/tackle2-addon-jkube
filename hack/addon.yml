@@ -1,0 +1,8 @@
+---
+kind: Addon
+apiVersion: tackle.konveyor.io/v1alpha1
+metadata:
+  name: jkube
+  namespace: konveyor-tackle
+spec:
+  image: quay.io/amundra/tackle2-addon-jkube:latest
