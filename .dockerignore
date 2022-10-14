@@ -1,0 +1,4 @@
+*.swap
+**/.git
+Dockerfile
+vendor/
