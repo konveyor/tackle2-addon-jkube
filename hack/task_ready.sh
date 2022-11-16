@@ -6,6 +6,20 @@
 
 host="${HOST:-localhost:8080/hub}"
 
+# Port Forwarding
+kubectl port-forward service/tackle-ui 8080:8080 -n konveyor-tackle > /dev/null 2>&1 &
+pid=$!
+
+# kill the port-forward regardless of how this script exits
+trap '{
+    kill $pid
+}' EXIT
+
+# wait for port to become available
+while ! nc -vz localhost 8080 > /dev/null 2>&1 ; do
+    sleep 0.1
+done
+
 # Make a request to hub
 request_cmd="$(curl -i -o - -X POST ${host}/tasks -d \
 '{
@@ -13,7 +27,7 @@ request_cmd="$(curl -i -o - -X POST ${host}/tasks -d \
     "state": "Ready",
     "locator": "jkube",
     "addon": "jkube",
-    "application": {"id": 2},
+    "application": {"id": 1},
     "data": {}
 }')"
 
